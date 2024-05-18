@@ -6,7 +6,7 @@ public class ConexionMysql {
     private Connection connection;
     
     private String usuario = "root";
-    private String password = "";
+    private String password = "123456";
     private String servidor = "localhost";
     private String puerto = "3306";
     private String baseDeDatos = "db_crud_java_swing";
