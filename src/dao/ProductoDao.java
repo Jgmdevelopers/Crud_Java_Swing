@@ -81,8 +81,10 @@ public class ProductoDao {
                 prod.setEstado(resultado.getString(9));
                 
                 listaProductos.add(prod);
-
             }
+            resultado.close();
+            sentencia.close();
+            connection.close();
             
         } catch (Exception e) {
                // Manejo de errores durante la conexión
@@ -93,6 +95,7 @@ public class ProductoDao {
              e.printStackTrace();
         }
            
-        return null;
+        return listaProductos;
     }
 }
+ 

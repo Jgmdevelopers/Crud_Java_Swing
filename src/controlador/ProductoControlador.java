@@ -1,6 +1,7 @@
 package controlador;
 
 import dao.ProductoDao;
+import java.util.*;
 import modelo.ProductoModelo;
 
 
@@ -18,6 +19,11 @@ public class ProductoControlador {
         
     }
     
+    public List<ProductoModelo> listar(){
+        List<ProductoModelo> listaProductos = this.productoDao.listar();
+        return listaProductos;
+              
+    }
     
     
 }
