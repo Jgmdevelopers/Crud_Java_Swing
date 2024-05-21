@@ -19,6 +19,10 @@ public class RegistrarProducto extends javax.swing.JFrame {
      */
     public RegistrarProducto() {
         initComponents();
+        
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        
     }
 
     /**
@@ -101,6 +105,11 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 txtPrecioActionPerformed(evt);
             }
         });
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioKeyTyped(evt);
+            }
+        });
 
         txtCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,7 +135,13 @@ public class RegistrarProducto extends javax.swing.JFrame {
         rbInactivo.setText("Inactivo");
 
         rbgEstado.add(rbActivo);
+        rbActivo.setSelected(true);
         rbActivo.setText("Activo");
+        rbActivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbActivoActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
         btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -276,43 +291,93 @@ public class RegistrarProducto extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         //System.out.println("Se esta Ejecuntando el evento");
-        ProductoModelo productoModelo = new ProductoModelo();
         
-        productoModelo.setCodigo(txtCodigo.getText());
-        productoModelo.setNombre(txtNombre.getText());
-        productoModelo.setCategoria(cboCategoria.getSelectedItem().toString());
-        productoModelo.setCompra(cbxCompra.isSelected());
-        productoModelo.setVenta(cbxVenta.isSelected());
-        productoModelo.setObsequio(cbxObsequio.isSelected());
-        productoModelo.setPrecio(Double.parseDouble(txtPrecio.getText()));
+        boolean validar = validacionCampos();
         
-        if (rbActivo.isSelected() == true) {
-            
-            productoModelo.setEstado("Activo");
-        }else{
-            productoModelo.setEstado("Inactivo");
-        }
+        if (validar == true) {
+            ProductoModelo productoModelo = new ProductoModelo();
         
-        ProductoControlador productoControlador = new ProductoControlador();
-        
-        boolean respuesta = productoControlador.registrar(productoModelo);
+            productoModelo.setCodigo(txtCodigo.getText());
+            productoModelo.setNombre(txtNombre.getText());
+            productoModelo.setCategoria(cboCategoria.getSelectedItem().toString());
+            productoModelo.setCompra(cbxCompra.isSelected());
+            productoModelo.setVenta(cbxVenta.isSelected());
+            productoModelo.setObsequio(cbxObsequio.isSelected());
+            productoModelo.setPrecio(Double.parseDouble(txtPrecio.getText()));
 
-        if (respuesta) {
-            
-            JOptionPane.showMessageDialog(null, "Se registró correctamente el producto: "+productoModelo.getNombre(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            JOptionPane.showMessageDialog(null, "Hubo un problema, consulte con el administrador del sistema", "Error", JOptionPane.ERROR_MESSAGE);
+            if (rbActivo.isSelected() == true) {
+
+                productoModelo.setEstado("Activo");
+            }else{
+                productoModelo.setEstado("Inactivo");
+            }
+
+            ProductoControlador productoControlador = new ProductoControlador();
+
+            boolean respuesta = productoControlador.registrar(productoModelo);
+
+            if (respuesta) {
+                
+                JOptionPane.showMessageDialog(null, "Se registró correctamente el producto: "+productoModelo.getNombre(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Hubo un problema, consulte con el administrador del sistema", "Error", JOptionPane.ERROR_MESSAGE);
+            } 
         }
+       
+        limpiarCampos();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    private void limpiarCampos(){
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtPrecio.setText("");
+        cboCategoria.setSelectedItem(0);
+        cbxCompra.setSelected(false);
+        cbxVenta.setSelected(false);
+        cbxObsequio.setSelected(false);
+        rbActivo.setSelected(true);
+
+    }
+    
+    private boolean validacionCampos(){
+        
+        if (txtCodigo.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Complete el campo código","Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }else if (txtNombre.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Complete el campo nombre","Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }else if (cboCategoria.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione la categoria","Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        
+        }else if (txtPrecio.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Complete el campo Precio","Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+    
+    
+    
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         
         System.exit(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        if (!Character.isDigit(evt.getKeyChar()) && evt.getKeyChar() != '.') {
+            
+            evt.consume();
+            
+        }
+    }//GEN-LAST:event_txtPrecioKeyTyped
+
+    private void rbActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbActivoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbActivoActionPerformed
+
+  
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

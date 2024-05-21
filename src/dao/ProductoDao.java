@@ -3,6 +3,7 @@ package dao;
 import conexion.ConexionMysql;
 import modelo.ProductoModelo;
 import java.sql.*;
+import java.util.*;
 
 public class ProductoDao {
     
@@ -52,4 +53,46 @@ public class ProductoDao {
         
     }
     
+    public List<ProductoModelo> listar(){
+        
+        List<ProductoModelo> listaProductos = new ArrayList<>();
+        
+        try {
+            
+            String SQL = "SELECT * FROM tb_productos";
+            
+            Connection connection = this.fabricaConexion.getConnection();
+            
+            PreparedStatement sentencia = connection.prepareStatement(SQL);
+            
+            ResultSet resultado = sentencia.executeQuery();
+            
+            while (resultado.next()){
+                ProductoModelo prod = new ProductoModelo();
+                
+                prod.setId(resultado.getInt(1));
+                prod.setCodigo(resultado.getString(2));
+                prod.setNombre(resultado.getString(3));
+                prod.setCategoria(resultado.getString(4));
+                prod.setCompra(resultado.getBoolean(5));
+                prod.setVenta(resultado.getBoolean(6));
+                prod.setObsequio(resultado.getBoolean(7));
+                prod.setPrecio(resultado.getDouble(8));
+                prod.setEstado(resultado.getString(9));
+                
+                listaProductos.add(prod);
+
+            }
+            
+        } catch (Exception e) {
+               // Manejo de errores durante la conexión
+             System.out.println("Ocurrio un error en el proceso dao de listar los producto");
+             System.out.println("Mensaje del error: "+e.getMessage());
+             System.out.println("Detalles del error");
+             
+             e.printStackTrace();
+        }
+           
+        return null;
+    }
 }
