@@ -26,6 +26,7 @@ public class ListarProductos extends javax.swing.JFrame {
         
         String[] columnNames = {"id","codigo","nombre","categoria","compra","venta", "obsequio", "precio","estado"}; 
         
+        //metodo en falso para que no se puedan editar las tablas
         DefaultTableModel model = new DefaultTableModel(null, columnNames){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -46,9 +47,9 @@ public class ListarProductos extends javax.swing.JFrame {
             data[1] = prod.getCodigo();
             data[2] = prod.getNombre();
             data[3] = prod.getCategoria();
-            data[4] = prod.isCompra() == true ? "Si" : "No";
-            data[5] = prod.isVenta() == true ? "Si" : "No";
-            data[6] = prod.isObsequio() == true ? "Si" : "No";
+            data[4] = prod.isCompra() ? "Si" : "No";
+            data[5] = prod.isVenta() ? "Si" : "No";
+            data[6] = prod.isObsequio() ? "Si" : "No";
             data[7] = prod.getPrecio();
             data[8] = prod.getEstado();
             
@@ -107,6 +108,11 @@ public class ListarProductos extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         btnQuitarFiltros.setText("Quitar Filtros");
 
@@ -220,6 +226,15 @@ public class ListarProductos extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+       RegistrarProducto formularioRegistrar = new RegistrarProducto( this );
+       
+       formularioRegistrar.setVisible(true);
+       formularioRegistrar.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //metodo para que cierre solo el formulario al salir
+       
+       
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
     /**
      * @param args the command line arguments
