@@ -4,22 +4,64 @@
  */
 package vistas;
 
-/**
- *
- * @author gabriel
- */
+import controlador.ProductoControlador;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import modelo.ProductoModelo;
+
+
 public class ListarProductos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ListarProductos
-     */
     public ListarProductos() {
         initComponents();
         
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        
+        cargarProductos();
     }
 
+    
+    public void cargarProductos(){
+        
+        String[] columnNames = {"id","codigo","nombre","categoria","compra","venta", "obsequio", "precio","estado"}; 
+        
+        DefaultTableModel model = new DefaultTableModel(null, columnNames){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+            
+        };
+        
+        ProductoControlador productoControlador = new ProductoControlador();
+        
+        List<ProductoModelo> listaproductos = productoControlador.listar();
+        
+        for (ProductoModelo prod: listaproductos){
+            
+            Object[] data = new Object[columnNames.length];
+            
+            data[0] = prod.getId();
+            data[1] = prod.getCodigo();
+            data[2] = prod.getNombre();
+            data[3] = prod.getCategoria();
+            data[4] = prod.isCompra() == true ? "Si" : "No";
+            data[5] = prod.isVenta() == true ? "Si" : "No";
+            data[6] = prod.isObsequio() == true ? "Si" : "No";
+            data[7] = prod.getPrecio();
+            data[8] = prod.getEstado();
+            
+            model.addRow(data);
+
+        }
+        
+        jtProductos.setModel(model);
+        
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

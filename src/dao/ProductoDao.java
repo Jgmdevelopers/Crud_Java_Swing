@@ -15,7 +15,7 @@ public class ProductoDao {
     
     public boolean registrar (ProductoModelo productoModelo){
         try {
-             String SQL = "INSERT INTO tb_producto(codigo, nombre, categoria,  compra, venta, obsequio, precio, estado ) "
+             String SQL = "INSERT INTO tb_producto(codigo, nombre, categoria, compra, venta, obsequio, precio, estado ) "
                      + " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
              
              Connection connection = this.fabricaConexion.getConnection();
@@ -59,7 +59,7 @@ public class ProductoDao {
         
         try {
             
-            String SQL = "SELECT * FROM tb_productos";
+            String SQL = "SELECT * FROM tb_producto";
             
             Connection connection = this.fabricaConexion.getConnection();
             
